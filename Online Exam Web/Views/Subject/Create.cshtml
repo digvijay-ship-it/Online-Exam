@@ -1,0 +1,23 @@
+﻿@model Subject
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Subject</h1>
+
+<form method="post">
+    <div>
+        <h2>Create Subject</h2>
+    </div>
+    <div>
+        <label asp-for="Subject_Name"></label>
+        <input asp-for="Subject_Name" />
+        <span asp-validation-for="Subject_Name"></span>
+    </div>
+    <div>
+        <label asp-for="IsActive">Cheak For subject to be activate</label>
+        <input type="checkbox" asp-for="IsActive" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Subject" asp-action="Index">Go Back</a>
+</form>

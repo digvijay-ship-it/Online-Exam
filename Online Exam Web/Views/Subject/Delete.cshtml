@@ -1,0 +1,23 @@
+﻿@model Subject
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Sub Delete</h1>
+<form method="post">
+    <div>
+        Delete Subject
+    </div>
+    <div>
+        <label asp-for="Subject_Name"></label>
+        <input asp-for="Subject_Name" disabled />
+    </div>
+    <div>
+        <label asp-for="IsActive"></label>
+        <input asp-for="IsActive" type="checkbox" disabled />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-danger">Delete subject</button>
+        <a asp-action="Index" asp-controller="Subject">Back to list</a>
+    </div>
+</form>

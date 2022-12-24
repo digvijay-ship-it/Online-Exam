@@ -1,0 +1,35 @@
+﻿@model OnlineExam.Models.ViewModels.QuestionVM
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Question</h1>
+
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h1>Create Question</h1>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label asp-for="question.question">Question</label>
+        <input asp-for="question.question" />
+        <span asp-validation-for="question.question"></span>
+    </div>
+    <div>
+        <label asp-for="question.IsActive"></label>
+        <input type="checkbox" asp-for="question.IsActive" />
+    </div>
+    <div>
+        <label asp-for="question.SubjectId">Choose Subject For this Question</label>
+        <select asp-for="question.SubjectId" asp-items="@Model.subjectList" class="form-select">
+            <option disabled selected>--Select Subject</option>
+        </select>
+        <span asp-validation-for="question.SubjectId"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Question" asp-action="Index">Go Back</a>
+</form>
+

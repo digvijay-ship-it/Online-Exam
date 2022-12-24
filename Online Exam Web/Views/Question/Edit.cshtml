@@ -1,0 +1,37 @@
+﻿@model OnlineExam.Models.ViewModels.OptionsVM
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Question Edit</h1>
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <h4>Edit Question or Add Options</h4>
+        </div>
+    </div>
+    <div>
+        <label asp-for="question.question">Question</label>
+        <input asp-for="question.question" />
+        <span asp-validation-for="question.question"></span>
+    </div>
+    @foreach(var obj in Model.OptionsList)
+    {
+        <div>
+            <label asp-for="@obj.option"></label>
+            <input asp-for="@obj.option" disabled/>
+        </div>
+    }
+    @*<div>
+            <label asp-for="OptionsList"></label>
+        <input asp-for="@obj.option" />
+        </div>
+    <div>
+        <label asp-for="@obj.option"></label>
+        <input asp-for="@obj.option" disabled />
+    </div>*@
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-controller="Question" asp-action="Index">Go Back</a>
+    
+</form>
+

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Question>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Q Index</h1>
+
+<div>
+    <div class="row">
+        <div class="col-6">
+            <h2>Question Index</h2>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Question" asp-action="Create" class="btn btn-primary">Add Questioon</a>
+        </div>
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th width="50%">
+                Question
+            </th>
+            <th width="5%">
+                Will be given In MCQ
+            </th>
+            <th width="10%">
+                Subject
+            </th>
+            <th>
+                Opration
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td>
+                    @obj.question
+                </td>
+                <td>
+                    @obj.IsActive
+                </td>
+                <td>
+                    @obj.SubjectId
+                </td>
+                <td>
+                    <a asp-controller="Question" asp-action="Edit" asp-route-id=@obj.Id class=" btn btn-primary">Edit Or Add Options</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

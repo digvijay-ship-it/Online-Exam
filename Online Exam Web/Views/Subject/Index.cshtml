@@ -1,0 +1,49 @@
+﻿@model IList<Subject>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+        <h1>Subject Index</h1>
+    </div>
+    <div class="col-6 pt-2">
+        <a asp-controller="Subject" asp-action="Create" class="btn btn-primary">Create Subject</a>
+    </div>
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th width="20%">
+                Subject Name
+            </th>
+            <th width="20%">
+                Functional
+            </th>
+            <th width="20%">
+                Oprations
+            </th>
+		</tr>
+    </thead>
+    <tbody>
+        @foreach(var a in Model)
+        {
+            <tr>
+                <td>
+                    @a.Subject_Name
+                </td>
+                <td>
+                    @a.IsActive
+                </td>
+                <td>
+                    <a asp-controller="Subject" asp-action="Edit" asp-route-id="@a.Id">Edit</a>
+                    <a asp-controller="Subject" asp-action="Delete" asp-route-id="@a.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

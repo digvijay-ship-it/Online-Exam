@@ -1,0 +1,22 @@
+﻿@model Subject
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Subject Edit</h4>
+<form method="post">
+    <div>
+        Edit Subject
+    </div>
+    <div>
+        <label asp-for="Subject_Name"></label>
+        <input asp-for="Subject_Name" />
+        <span asp-validation-for="Subject_Name"></span>
+    </div>
+    <div>
+        <label asp-for="IsActive"></label>
+        <input asp-for="IsActive" type="checkbox"/> 
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Subject" asp-action="Index">Go Back To List</a>
+</form>
