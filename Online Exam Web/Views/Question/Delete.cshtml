@@ -1,0 +1,28 @@
+﻿@model OnlineExam.Models.ViewModels.OptionsVM
+
+<h1>Question Delete</h1>
+<form method="post">
+    <input asp-for="question.Id" hidden />
+    <input asp-for="question.SubjectId" hidden/>
+    <div class="container">
+        <div class="row">
+            <h4>Edit Question or Add Options</h4>
+        </div>
+    </div>
+    <div>
+        <label asp-for="question.question">Question</label>
+        <input asp-for="question.question" disabled/>
+        <span asp-validation-for="question.question"></span>
+    </div>
+    @foreach(var obj in Model.OptionsList)
+    {
+        <div>
+            <label asp-for="@obj.option"></label>
+            <input asp-for="@obj.option" disabled/>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-controller="Question" asp-action="Index">Go Back</a>
+    
+</form>
+

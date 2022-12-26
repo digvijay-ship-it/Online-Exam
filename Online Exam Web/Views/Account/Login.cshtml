@@ -1,0 +1,51 @@
+﻿@model OnlineExam.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout_login_Registration.cshtml";
+}
+
+<h1>Login</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4 border border-primary rounded pl-5 pr-5 pb-5">
+            <div class="text-center">
+                <a class="text-light btn btn-primary font-weight-bold" asp-action="Registeration" asp-controller="Account">Register</a>
+            </div>
+            <form method="post" asp-action="Login">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input type="text" asp-for="Email" placeholder="Enter Email" class="form-control" autocomplete="off" />
+                    <span class="text-danger">@TempData["errorMessageU"]</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input id="password" type="password" asp-for="Password" placeholder="Enter password" class="form-control" autocomplete="off" />
+                    <i id="open" class="fa-solid fa-eye float-end" style="margin-top:-25px; margin-right:10px; cursor:pointer;"></i>
+                    <i id="close" class="fa-solid fa-eye-slash float-end" style="margin-top:-25px; margin-right:10px; cursor:pointer ; display:none ;"></i>
+                    <span class="text-danger">@TempData["errorMessageP"]</span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-block btn-primary mb-2" value="Log In" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#open").click(function () {
+            $("#open").hide();
+            $("#close").show();
+            $("#password").attr("type", "text");
+        });
+        $("#close").click(function () {
+            $("#close").hide();
+            $("#open").show();
+            $("#password").attr("type", "password");
+        });
+    });
+</script>

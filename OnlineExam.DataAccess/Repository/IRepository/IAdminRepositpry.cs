@@ -7,8 +7,7 @@ using OnlineExam.Models;
 
 namespace OnlineExam.DataAccess.Repository.IRepository
 {
-    public interface IQuestionRepository:IRepository<Question>
+    public interface IAdminRepositpry : IRepository<Admin>
     {
-        void Update(Question obj);
     }
 }

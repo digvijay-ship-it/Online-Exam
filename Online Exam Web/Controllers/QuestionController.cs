@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using NuGet.Packaging;
 using OnlineExam.DataAccess.data;
 using OnlineExam.DataAccess.Repository;
 using OnlineExam.DataAccess.Repository.IRepository;
@@ -56,7 +57,7 @@ namespace Online_Exam_Web.Controllers
         //get 
         public IActionResult Edit(int? id)
         {
-            if(id == null&&id==0) 
+            if(id == null||id==0) 
             {
                 return NotFound();
             }
@@ -64,6 +65,8 @@ namespace Online_Exam_Web.Controllers
             {
                 question = new Question(),
                 OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u=>u.QuestionId == id),
+
+
             };
             var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u=>u.Id == id);
             qAndOpBag.question = questionToEdit;
@@ -74,14 +77,109 @@ namespace Online_Exam_Web.Controllers
         [HttpPost]
         public IActionResult Edit(OptionsVM obj)
         {
+            List<Option> optionListFormView = new List<Option>();
             if (ModelState.IsValid)
             {
+                
+                if (!(obj.Option1 is null))
+                {
+                    var op1 = new Option();
+                    op1.QuestionId = obj.question.Id;
+                    op1.option = obj.Option1;
+                    _unitOfWork.OptionRepo.Add(op1);
+                    optionListFormView.Append(op1);
+                }
+                if (!(obj.Option2 is null))
+                {
+                    var op2 = new Option();
+                    op2.QuestionId = obj.question.Id;
+                    op2.option = obj.Option2;
+                    _unitOfWork.OptionRepo.Add(op2);
+                    optionListFormView.Append(op2);
+                }
+                if (!(obj.Option3 is null))
+                {
+                    var op3 = new Option();
+                    op3.QuestionId = obj.question.Id;
+                    op3.option = obj.Option3;
+                    _unitOfWork.OptionRepo.Add(op3);
+                    optionListFormView.Append(op3);
+                }
+                if (!(obj.Option4 is null))
+                {
+                    var op4 = new Option();
+                    op4.QuestionId = obj.question.Id;
+                    op4.option = obj.Option4;
+                    _unitOfWork.OptionRepo.Add(op4);
+                    optionListFormView.Append(op4);
+                }
                 _unitOfWork.QuesRepo.Update(obj.question);
-                _unitOfWork.OptionRepo.AddRange(obj.OptionsList.ToArray());
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             return View(obj);
         }
+
+        //Get
+        public IActionResult Delete(int? id)
+        {
+            if (id == null && id == 0)
+            {
+                return NotFound();
+            }
+            var qAndOpBag = new OptionsVM()
+            {
+                question = new Question(),
+                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id),
+            };
+            var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u => u.Id == id);
+            qAndOpBag.question = questionToEdit;
+
+            return View(qAndOpBag);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(OptionsVM obj)
+        {
+            _unitOfWork.QuesRepo.Delete(obj.question);
+            _unitOfWork.Save();
+            return RedirectToAction("Index");
+        }
+
+        //get 
+        public IActionResult Answer(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var qAndOpBag = new OptionsVM()
+            {
+                question = new Question(),
+                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id),
+                OptionsListSList = _unitOfWork.OptionRepo.GetAll().Where(i=>i.QuestionId==id).Select(i => new SelectListItem
+                {
+                    Text = i.option,
+                    Value = i.Id.ToString()
+                })
+            };
+            var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u => u.Id == id);
+            qAndOpBag.question = questionToEdit;
+
+            return View(qAndOpBag);
+        }
+
+        [HttpPost]
+        public IActionResult Answer(OptionsVM obj)
+        {
+            if(ModelState.IsValid)
+            {
+                _unitOfWork.QuesRepo.Update(obj.question);
+                _unitOfWork.Save();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
     }
 }

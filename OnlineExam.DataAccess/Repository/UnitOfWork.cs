@@ -18,6 +18,8 @@ namespace OnlineExam.DataAccess.Repository
             SubRepo =new SubjectRepositpry(_db);
             QuesRepo = new QuestionRepository(_db);
             OptionRepo = new OptionRepository(_db);
+            UserRepo = new UserRepositpry(_db);
+            AdminRepo= new AdminRepositpry(_db);
         }
 
         public ISubjectRepositpry SubRepo { get;private set; }
@@ -25,6 +27,10 @@ namespace OnlineExam.DataAccess.Repository
         public IQuestionRepository QuesRepo { get;private set; }
 
         public IOptionRepository OptionRepo { get;private set; }
+
+        public IUserRepositpry UserRepo { get;private set; }
+
+        public IAdminRepositpry AdminRepo { get;private set; }
 
         public void Save()
         {

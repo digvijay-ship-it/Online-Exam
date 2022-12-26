@@ -1,9 +1,6 @@
 ﻿@model OnlineExam.Models.ViewModels.OptionsVM
-@{
-    ViewData["Title"] = "Edit";
-}
 
-<h1>Question Edit</h1>
+<h1>Add Answer</h1>
 <form method="post">
     <input asp-for="question.Id" hidden />
     <input asp-for="question.SubjectId" hidden/>
@@ -29,20 +26,11 @@
         </div>
     }
     <div>
-        <label asp-for="Option1"></label>
-        <input asp-for="Option1" />
-    </div>
-    <div>
-        <label asp-for="Option2"></label>
-        <input asp-for="Option2" />
-    </div>
-    <div>
-        <label asp-for="Option3"></label>
-        <input asp-for="Option3" />
-    </div>
-    <div>
-        <label asp-for="Option4"></label>
-        <input asp-for="Option4" />
+        <label asp-for="question.Answer">Answer from These Option</label>
+        <select asp-for="question.Answer" asp-items="@Model.OptionsListSList" class="form-select">
+            <option disabled selected>--Select Option</option>
+		</select>
+			<span asp-validation-for="question.Answer" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Update</button>
     <a asp-controller="Question" asp-action="Index">Go Back</a>

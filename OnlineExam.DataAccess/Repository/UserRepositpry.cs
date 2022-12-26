@@ -9,18 +9,17 @@ using OnlineExam.Models;
 
 namespace OnlineExam.DataAccess.Repository
 {
-    public class QuestionRepository : Repository<Question>, IQuestionRepository
+    public class UserRepositpry : Repository<User>, IUserRepositpry
     {
         private ApplicationDbContext _db;
-
-        public QuestionRepository(ApplicationDbContext db) : base(db)
+        public UserRepositpry(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Question obj)
+        public void Update(User obj)
         {
-            _db.Questions.Update(obj);
+            _db.Users.Update(obj);
         }
     }
 }

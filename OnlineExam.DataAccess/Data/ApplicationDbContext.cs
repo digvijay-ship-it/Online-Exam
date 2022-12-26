@@ -18,6 +18,8 @@ namespace OnlineExam.DataAccess.data
                 .IsUnique();
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }

@@ -1,0 +1,59 @@
+﻿@model OnlineExam.Models.ViewModels.RegistrationViewModel
+@{
+    ViewData["Title"] = "Registeration";
+    Layout = "~/Views/Shared/_Layout_login_Registration.cshtml";
+}
+
+<h1>Registeration</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="text-center">
+                <h1 class="text-info">User Registration Form</h1>
+            </div>
+            <h6 class="text-success text-center">@TempData["success"]</h6>
+            <div>
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login If already have an Account</a>
+			</div>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" type="text" autocomplete="off" placeholder="Enter Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" type="text" autocomplete="off" placeholder="Enter UserName" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="text" autocomplete="off" placeholder="Enter UserName" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" type="text" autocomplete="off" placeholder="Enter UserName" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-10">
+
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-block btn-primary mb-2" value="Creare User" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

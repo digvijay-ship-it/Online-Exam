@@ -11,6 +11,8 @@ namespace OnlineExam.DataAccess.Repository.IRepository
         public ISubjectRepositpry SubRepo { get; }
         public IQuestionRepository QuesRepo { get; }
         public IOptionRepository OptionRepo { get; }
+        public IUserRepositpry UserRepo { get; }
+        public IAdminRepositpry AdminRepo { get; }
         void Save();
     }
 }

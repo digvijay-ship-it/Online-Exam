@@ -47,7 +47,22 @@
                     @obj.SubjectId
                 </td>
                 <td>
-                    <a asp-controller="Question" asp-action="Edit" asp-route-id=@obj.Id class=" btn btn-primary">Edit Or Add Options</a>
+                    <a asp-controller="Question" asp-action="Edit" asp-route-id=@obj.Id class=" btn btn-primary">Edit Question Or Add Options</a>
+                </td>
+                @if(obj.Answer==0)
+                {
+                    <td>
+                        <a asp-controller="Question" asp-action="Answer" asp-route-id=@obj.Id class=" btn btn-primary">Add Answer</a>
+					</td>
+                }
+                @if (!(obj.Answer == 0))
+                {
+                <td>
+                        <a asp-controller="Question" asp-action="Answer" asp-route-id=@obj.Id class=" btn btn-primary">Edit Answer</a>
+				</td>
+                }
+                <td>
+                    <a asp-controller="Question" asp-action="Delete" asp-route-id=@obj.Id class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
