@@ -1,4 +1,4 @@
-﻿/*let fatchBtn = document.getElementById("fatchBtn");
+﻿    /*let fatchBtn = document.getElementById("fatchBtn");
 
 fatchBtn.addEventListener('click', buttonClickHandler)
 */
@@ -6,6 +6,7 @@ fatchBtn.addEventListener('click', buttonClickHandler)
 function buttonClickHandler(id) {
     const xhr = new XMLHttpRequest();
     console.log("in Ajax Body");
+
 
 /*    //
     xhr.onprogress = function () {
