@@ -1,0 +1,42 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User Activation/Deactivation</h1>
+<form method="post">
+    @*<input asp-for="Id" hidden/>
+    <input asp-for="Email" hidden />
+    <input asp-for="Password" hidden/>
+    <input asp-for="Name" hidden />
+    *@
+
+    <input asp-for="Id" hidden />
+    <div>
+        Edit User Activation/Deactivation
+    </div>
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" disabled />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" disabled />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" disabled />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="IsActive"></label>
+        <input asp-for="IsActive" type="checkbox" />
+        <span asp-validation-for="IsActive"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-controller="User" asp-action="Index">Go Back To List</a>
+</form>
+

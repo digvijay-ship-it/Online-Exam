@@ -1,71 +1,76 @@
 ﻿@model IEnumerable<Question>
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Q Index</h1>
 
 <div>
-    <div class="row">
-        <div class="col-6">
-            <h2>Question Index</h2>
-        </div>
-        <div class="col-6">
-            <a asp-controller="Question" asp-action="Create" class="btn btn-primary">Add Questioon</a>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-6">
+			<h2>Question Index</h2>
+		</div>
+		<div class="col-6">
+			<a asp-controller="Question" asp-action="Create" class="btn btn-primary">Add Questioon</a>
+		</div>
+	</div>
 </div>
 
 <table>
-    <thead>
-        <tr>
-            <th width="50%">
-                Question
-            </th>
-            <th width="5%">
-                Will be given In MCQ
-            </th>
-            <th width="10%">
-                Subject
-            </th>
-            <th>
-                Opration
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var obj in Model)
-        {
-            <tr>
-                <td>
-                    @obj.question
-                </td>
-                <td>
-                    @obj.IsActive
-                </td>
-                <td>
-                    @obj.SubjectId
-                </td>
-                <td>
-                    <a asp-controller="Question" asp-action="Edit" asp-route-id=@obj.Id class=" btn btn-primary">Edit Question Or Add Options</a>
-                </td>
-                @if(obj.Answer==0)
-                {
-                    <td>
-                        <a asp-controller="Question" asp-action="Answer" asp-route-id=@obj.Id class=" btn btn-primary">Add Answer</a>
-					</td>
-                }
-                @if (!(obj.Answer == 0))
-                {
-                <td>
-                        <a asp-controller="Question" asp-action="Answer" asp-route-id=@obj.Id class=" btn btn-primary">Edit Answer</a>
+	<thead>
+		<tr>
+			<th width="50%">
+				Question
+			</th>
+			<th width="5%">
+				Will be given In MCQ
+			</th>
+			<th width="10%">
+				Subject
+			</th>
+			<th>
+				Opration
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var obj in Model)
+		{
+			<tr>
+				<td>
+					@obj.question
 				</td>
-                }
-                <td>
-                    <a asp-controller="Question" asp-action="Delete" asp-route-id=@obj.Id class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
+				<td>
+					@obj.IsActive
+				</td>
+				<td>
+					@obj.Subject.Subject_Name
+				</td>
+				<td>
+					<a asp-controller="Question" asp-action="Edit" asp-route-id=@obj.Id class=" btn btn-primary">Edit Question Or Add Options</a>
+				</td>
+				@if (obj.Answer == 0)
+				{
+					<td>
+						<a asp-controller="Question" asp-action="Answer" asp-route-id=@obj.Id class=" btn btn-primary">Add Answer</a>
+					</td>
+				}
+				@if (!(obj.Answer == 0))
+				{
+					<td>
+						<a asp-controller="Question" asp-action="Answer" asp-route-id=@obj.Id class="btn btn-primary">Edit Answer</a>
+					</td>
+				}
+				<td>
+					<a asp-controller="Question" asp-action="Delete" asp-route-id=@obj.Id class="btn btn-danger">Delete</a>
+				</td>
+			</tr>
+		}
 
-    </tbody>
+	</tbody>
+	<ul>
+		<li>
+			<p>(to do : Add dynamic add button </p>
+		</li>
+	</ul>
 </table>

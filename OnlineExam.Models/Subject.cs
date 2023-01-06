@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace OnlineExam.Models
 {
@@ -12,5 +13,8 @@ namespace OnlineExam.Models
         public string Subject_Name { get; set; }
 
         public bool IsActive { get; set; }
+
+        [ValidateNever]
+        public IList<UserSubject> UserSubjects { get; set; }
     }
 }

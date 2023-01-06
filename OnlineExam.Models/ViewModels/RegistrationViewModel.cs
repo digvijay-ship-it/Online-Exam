@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OnlineExam.Models.ViewModels
 {
@@ -28,6 +30,9 @@ namespace OnlineExam.Models.ViewModels
         public string ConfirmPassword { get; set; }
 
         [DisplayName("Remember Me")]
-        public bool IsRemember { get; set; } 
+        public bool IsRemember { get; set; }
+
+        [ValidateNever]
+        public IList<SelectListItem>? SubjectList { get; set; }
     }
 }

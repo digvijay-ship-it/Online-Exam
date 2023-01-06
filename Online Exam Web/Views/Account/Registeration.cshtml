@@ -14,7 +14,7 @@
             </div>
             <h6 class="text-success text-center">@TempData["success"]</h6>
             <div>
-                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login If already have an Account</a>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login If already have an Account</a>
 			</div>
             <form method="post">
                 <div class="form-group">
@@ -37,6 +37,18 @@
                     <input asp-for="ConfirmPassword" type="text" autocomplete="off" placeholder="Enter UserName" class="form-control" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
+                @*<div>
+                    @{
+                        @for (int i = 0; i < Model.SubjectList.Count(); i++)
+                        {
+                            <input asp-for="@Model.SubjectList[i].Value" type="hidden" />
+                            {
+                                <input asp-for="@Model.SubjectList[i].Selected" checked disabled/> @Model.SubjectList[i].Text
+                            }
+                            <br />
+                        }
+                    }
+                </div>*@
                 <div class="row">
                     <div class="col-10">
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineExam.DataAccess.data;
 
@@ -11,9 +12,11 @@ using OnlineExam.DataAccess.data;
 namespace OnlineExamWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221230093818_resultAdded1")]
+    partial class resultAdded1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,9 +115,6 @@ namespace OnlineExamWeb.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -124,14 +124,13 @@ namespace OnlineExamWeb.Migrations
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("wasCurrect")
-                        .HasColumnType("bit");
+                    b.Property<string>("wasCurrect")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("SubjectId");
 
                     b.HasIndex("UserId");
 
@@ -270,12 +269,6 @@ namespace OnlineExamWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineExam.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("OnlineExam.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -283,8 +276,6 @@ namespace OnlineExamWeb.Migrations
                         .IsRequired();
 
                     b.Navigation("Question");
-
-                    b.Navigation("Subject");
 
                     b.Navigation("User");
                 });

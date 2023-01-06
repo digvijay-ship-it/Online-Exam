@@ -1,0 +1,63 @@
+﻿@model List<OnlineExam.Models.ViewModels.ExamVM>
+@{
+	ViewData["Title"] = "Attempt";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Attempt</h1>
+<ul>
+	<li>
+		(to Do: Make cheakBox That Take input(optionId) in Result.Answer)
+	</li>
+</ul>
+<head>
+
+</head>
+<body>
+
+	<form method="post">
+		<button type="button" id="fetchdata" class="btn btn-primary">fetch data</button>
+		@foreach (var obj in Model)
+		{
+			<div>
+				<div>
+					<input asp-for="@obj.result.QuestionId" value="@obj.question.Id" hidden>
+					<input asp-for="@obj.result.Answer" value="@obj.question.Answer" hidden>
+					<input asp-for="@obj.result.SubjectId" value="@obj.question.SubjectId" hidden>
+				</div>
+				<div>
+					<label asp-for="@obj.question.question">@obj.question.question</label>
+				</div>
+				@*<div>
+				@{
+				@for (int i = 0; i < obj.OptionsList.Count(); i++)
+				{
+				<input asp-for="@obj.OptionsList[i].Value" type="hidden" />
+				{
+				<input asp-for="@Model.SubjectList[i].Selected" checked disabled /> @Model.SubjectList[i].Text
+				}
+				<br />
+				}
+				}
+				</div>
+				type="radio" value="@optionobj.Id" name="User answer"*@
+				<div>
+					@foreach (var optionobj in obj.OptionsList)
+					{
+						<div>
+							@*<label asp-for="@optionobj.option"></label>*@
+							<input asp-for="@obj.result.Users_Answer" type="radio" name="@optionobj.QuestionId" value="@optionobj.Id">
+							<label asp-for="@optionobj.option">@optionobj.option</label>
+						</div>
+					}
+				</div>
+				@*<input asp-for="@obj.result.Users_Answer" name="UserAnswer" type="radio" value="@optionobj.Id">*@
+
+			</div>
+		}
+		<button type="submit" class="btn btn-primary">Submit</button>
+
+	</form>
+
+	@*<script src="~/js/Exam.js"></script>*@
+</body>

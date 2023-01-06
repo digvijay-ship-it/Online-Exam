@@ -10,9 +10,9 @@ namespace OnlineExam.DataAccess.Repository.IRepository
     public interface IRepository<T> where T : class
     {
         void Add(T Entity);
-        void AddRange(T[] Entities);
-        IEnumerable<T> GetAll();
-        T GetFirstOrDefault(Expression<Func<T,bool>> filtercondition);
+        void AddRange(IList<T> Entities);
+        IEnumerable<T> GetAll(string? includeProperties = null);
+        T GetFirstOrDefault(Expression<Func<T, bool>> filtercondition, string? includeProperties = null);
         bool GetFirstOrDefaultBool(Expression<Func<T, bool>> filtercondition);
         void Delete(T Entity);
     }

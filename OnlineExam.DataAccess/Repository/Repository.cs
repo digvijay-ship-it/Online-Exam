@@ -27,7 +27,7 @@ namespace OnlineExam.DataAccess.Repository
             dbSet.Add(Entity);
         }
 
-        public void AddRange(T[] Entities)
+        public void AddRange(IList<T> Entities)
         {
             dbSet.AddRange(Entities);
         }
@@ -42,16 +42,30 @@ namespace OnlineExam.DataAccess.Repository
             dbSet.RemoveRange(Entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> a = dbSet;
+            if(includeProperties != null)
+            {
+                foreach(var property in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                {
+                    a = a.Include(property);
+                }
+            }
             return a.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filtercondition)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filtercondition,string? includeProperties = null)
         {
             IQueryable<T> quary = dbSet;
             quary= quary.Where(filtercondition);
+            if(includeProperties!=null)
+            {
+                foreach(var property in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                {
+                    quary = quary.Include(property);
+                }
+            }
             return quary.FirstOrDefault();
         }
 

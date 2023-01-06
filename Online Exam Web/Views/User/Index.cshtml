@@ -1,0 +1,45 @@
+﻿@model IList<User>
+@{
+	ViewData["Title"] = "Index";
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-6">
+			<h1>Subject Index</h1>
+		</div>
+	</div>
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th width="20%">
+				Name
+			</th>
+			<th width="20%">
+				Functional
+			</th>
+			<th width="20%">
+				Oprations
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var a in Model)
+		{
+			<tr>
+				<td>
+					@a.Email
+				</td>
+				<td>
+					@a.IsActive
+				</td>
+				<td>
+					<a asp-controller="User" asp-action="Edit" asp-route-id="@a.Id">Edit</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+
+</table>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace OnlineExam.Models
 {
@@ -15,10 +16,11 @@ namespace OnlineExam.Models
 
         public bool IsActive { get; set; } = true;
 
-        public byte ExamCounter { get; set; } = 0;
-
         [Required]
         public int RoleId { get; set; } = 2;
         public Role Role { get; set; }
+
+        [ValidateNever]
+        public IList<UserSubject> UserSubjects { get; set; }
     }
 }

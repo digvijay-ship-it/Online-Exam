@@ -6,12 +6,21 @@ namespace OnlineExam.Models.ViewModels
 {
     public class OptionsVM
     {
+
+        //OG
         public Question question { get; set; }
 
         [ValidateNever]
-        public IEnumerable<Option> OptionsList { get; set; }
+        public IList<Option> OptionsList { get; set; }
 
-        [ValidateNever]
+		[ValidateNever]
+		public List<string> opTextList { get; set; }
+
+        [ValidateNever] 
+		public string opText { get; set; }
+
+
+		[ValidateNever]
         public IEnumerable<SelectListItem> OptionsListSList { get; set; }
 
         [ValidateNever]
@@ -22,5 +31,8 @@ namespace OnlineExam.Models.ViewModels
         public string Option3 { get; set; }
         [ValidateNever]
         public string Option4 { get; set; }
+
+        [ValidateNever]
+        public Result result { get; set; }
     }
 }

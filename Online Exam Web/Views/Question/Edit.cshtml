@@ -1,51 +1,74 @@
 ﻿@model OnlineExam.Models.ViewModels.OptionsVM
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Edit";
 }
 
 <h1>Question Edit</h1>
 <form method="post">
-    <input asp-for="question.Id" hidden />
-    <input asp-for="question.SubjectId" hidden/>
-    <div class="container">
-        <div class="row">
-            <h4>Edit Question or Add Options</h4>
-        </div>
-    </div>
-    <div>
-        <label asp-for="question.question">Question</label>
-        <input asp-for="question.question" />
-        <span asp-validation-for="question.question"></span>
-    </div>
-    <div>
-        <label asp-for="question.IsActive"></label>
-        <input asp-for="question.IsActive" type="checkbox"/>
-    </div>
-    @foreach(var obj in Model.OptionsList)
-    {
-        <div>
-            <label asp-for="@obj.option"></label>
-            <input asp-for="@obj.option" disabled/>
-        </div>
-    }
-    <div>
-        <label asp-for="Option1"></label>
-        <input asp-for="Option1" />
-    </div>
-    <div>
-        <label asp-for="Option2"></label>
-        <input asp-for="Option2" />
-    </div>
-    <div>
-        <label asp-for="Option3"></label>
-        <input asp-for="Option3" />
-    </div>
-    <div>
-        <label asp-for="Option4"></label>
-        <input asp-for="Option4" />
-    </div>
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a asp-controller="Question" asp-action="Index">Go Back</a>
-    
+	<input asp-for="question.Id" hidden />
+	<input asp-for="question.SubjectId" hidden />
+	<div class="container">
+		<div class="row">
+			<h4>Edit Question or Add Options</h4>
+		</div>
+	</div>
+	<div>
+		<label asp-for="question.question">Question</label>
+		<input asp-for="question.question" />
+		<span asp-validation-for="question.question"></span>
+	</div>
+	<div>
+		<label asp-for="question.IsActive"></label>
+		<input asp-for="question.IsActive" type="checkbox" />
+	</div>
+	@foreach (var obj in Model.OptionsList)
+	{
+		<div>
+			<label asp-for="@obj.option"></label>
+			<input asp-for="@obj.option" disabled />
+			<a asp-controller="Question" asp-action="Delete_op" asp-route-id=@obj.Id class="btn btn-outline-danger"
+		   onclick="return confirm('Are you sure you want to delete this?')">Delete Option</a>
+		</div>
+	}
+	@*
+	@do
+	{
+	<label asp-for="@Model.opTextList[0].option"></label>
+	<input asp-for="@Model.opTextList[0].option"/>
+	Model.count--;
+	}
+	while(count>0)*@
+	<div>
+		<label asp-for="Option1"></label>
+		<input asp-for="Option1" />
+	</div>
+	<div>
+		<label asp-for="Option2"></label>
+		<input asp-for="Option2" />
+	</div>
+	<div>
+		<label asp-for="Option3"></label>
+		<input asp-for="Option3" />
+	</div>
+	<div>
+		<label asp-for="Option4"></label>
+		<input asp-for="Option4" />
+	</div>
+	@*<div>
+		<label asp-for="opTextList.Add()"> Added Option</label>
+		<input type="text" asp-for="opTextList.Add()" />
+	</div>*@
+	<div class="col-12">
+		
+		<a href="#" id="add_more_field" class="btn btn-dark">Add More option</a>
+	</div>
+	<button type="submit" class="btn btn-primary">Update Question With options</button>
+	<a asp-controller="Question" asp-action="Index" class="btn btn-outline-dark">Go Back</a>
+
 </form>
+
+@section Scripts{
+	<script src="~/js/OptionAdd.js"></script>
+
+}
 

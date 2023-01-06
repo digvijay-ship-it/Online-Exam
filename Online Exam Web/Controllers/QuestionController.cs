@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using NuGet.Packaging;
@@ -10,6 +12,7 @@ using OnlineExam.Models.ViewModels;
 
 namespace Online_Exam_Web.Controllers
 {
+    [Authorize(Roles = "1")]
     public class QuestionController : Controller
     {
         public readonly IUnitOfWork _unitOfWork;
@@ -20,7 +23,7 @@ namespace Online_Exam_Web.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Question> questions = _unitOfWork.QuesRepo.GetAll();
+            IEnumerable<Question> questions = _unitOfWork.QuesRepo.GetAll("Subject");
             return View(questions);
         }
 
@@ -37,7 +40,6 @@ namespace Online_Exam_Web.Controllers
                     Disabled = !i.IsActive
                 })
             };
-
             return View(questionVm);
         }
 
@@ -57,18 +59,17 @@ namespace Online_Exam_Web.Controllers
         //get 
         public IActionResult Edit(int? id)
         {
-            if(id == null||id==0) 
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
             var qAndOpBag = new OptionsVM()
             {
                 question = new Question(),
-                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u=>u.QuestionId == id),
-
+                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id).ToList(),
 
             };
-            var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u=>u.Id == id);
+            var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u => u.Id == id);
             qAndOpBag.question = questionToEdit;
 
             return View(qAndOpBag);
@@ -80,7 +81,7 @@ namespace Online_Exam_Web.Controllers
             List<Option> optionListFormView = new List<Option>();
             if (ModelState.IsValid)
             {
-                
+
                 if (!(obj.Option1 is null))
                 {
                     var op1 = new Option();
@@ -130,7 +131,7 @@ namespace Online_Exam_Web.Controllers
             var qAndOpBag = new OptionsVM()
             {
                 question = new Question(),
-                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id),
+                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id).ToList(),
             };
             var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u => u.Id == id);
             qAndOpBag.question = questionToEdit;
@@ -156,12 +157,12 @@ namespace Online_Exam_Web.Controllers
             var qAndOpBag = new OptionsVM()
             {
                 question = new Question(),
-                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id),
-                OptionsListSList = _unitOfWork.OptionRepo.GetAll().Where(i=>i.QuestionId==id).Select(i => new SelectListItem
+                OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id).ToList(),
+                /*OptionsListSList = _unitOfWork.OptionRepo.GetAll().Where(i => i.QuestionId == id).Select(i => new SelectListItem
                 {
                     Text = i.option,
                     Value = i.Id.ToString()
-                })
+                })*/
             };
             var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u => u.Id == id);
             qAndOpBag.question = questionToEdit;
@@ -172,14 +173,22 @@ namespace Online_Exam_Web.Controllers
         [HttpPost]
         public IActionResult Answer(OptionsVM obj)
         {
-            if(ModelState.IsValid)
-            {
-                _unitOfWork.QuesRepo.Update(obj.question);
-                _unitOfWork.Save();
-                return RedirectToAction("Index");
-            }
+            var addAns = _unitOfWork.QuesRepo.GetFirstOrDefault(e => e.Id == obj.question.Id);
+            addAns.Answer = obj.question.Answer;
+            _unitOfWork.QuesRepo.Update(addAns);
+            _unitOfWork.Save();
+            return RedirectToAction("Index");
+
             return View(obj);
         }
 
+        public IActionResult Delete_op(int? id)
+        {
+            var deletOp = _unitOfWork.OptionRepo.GetFirstOrDefault(a => a.Id == id);
+            _unitOfWork.OptionRepo.Delete(deletOp);
+            _unitOfWork.Save();
+			var Que = _unitOfWork.QuesRepo.GetFirstOrDefault(a => a.Id == deletOp.QuestionId);
+			return RedirectToAction("Edit",new { id = Que.Id });
+        }
     }
 }

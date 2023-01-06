@@ -22,18 +22,31 @@
                         @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Index">Subject</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Index">Question</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registeration">signup</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Exam" asp-action="Index">Exam</a>
-                        </li>
+                        @if(User.IsInRole("1"))
+                        {
+                            <h6>Admin panal</h6>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Index">Subject</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Index">Question</a>
+							</li>
+							@*<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registeration">signup</a>
+							</li>*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">User deactivation and activation</a>
+                            </li>
+                        }
+                        
+                        @if(User.IsInRole("2"))
+                        {
+                            <h6>Student panal</h6>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Exam" asp-action="Index">Exam</a>
+							</li>
+                        }
+                        
                     </ul>
                     <div>
                         @if (User.Identity.IsAuthenticated)

@@ -11,7 +11,7 @@
     </div>
     <div>
         <label asp-for="question.question">Question</label>
-        <input asp-for="question.question" />
+        <input asp-for="question.question" disabled />
         <span asp-validation-for="question.question"></span>
     </div>
     <div>
@@ -32,7 +32,7 @@
 		</select>
 			<span asp-validation-for="question.Answer" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary">Add Answer</button>
     <a asp-controller="Question" asp-action="Index">Go Back</a>
     
 </form>

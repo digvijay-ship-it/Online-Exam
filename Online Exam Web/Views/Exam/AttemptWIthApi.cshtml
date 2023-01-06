@@ -1,0 +1,27 @@
+﻿@model Subject
+<html>
+<head>
+
+</head>
+<body>
+	<ul>
+		<h2>Exam Instruction</h2>
+		<li>
+			<p>blah blah1</p>
+		</li>
+		<li>
+			<p>blah blah2</p>
+		</li>
+		<li>
+			<p>blah blah3</p>
+		</li>
+		<li>
+			<p>blah blah4</p>
+		</li>
+	</ul>
+	<label asp-for="@Model.Subject_Name">@Model.Subject_Name</label>
+	<button onclick="buttonClickHandler(@Model.Id)" class="btn btn-primary">Start Exam </button>
+	<script src="~/js/Exam.js"></script>
+
+</body>
+</html>
