@@ -15,8 +15,5 @@ namespace OnlineExam.Models.ViewModels
 
         [ValidateNever]
         public Result result { get; set; }
-
-        [ValidateNever]
-        public int? SubId { get; set; }
     }
 }

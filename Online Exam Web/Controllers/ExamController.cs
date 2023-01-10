@@ -1,6 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using OnlineExam.DataAccess.data;
 using OnlineExam.DataAccess.Repository.IRepository;
 using OnlineExam.Models;
@@ -19,8 +22,8 @@ public class ExamController : Controller
 
 	public IActionResult Index()
 	{
-		//make subject appear which are unattempted and 
-		var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+		//make subject appear which are unattempted and 0
+		var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)) && e.Counter == 0);
 		return View(objList.ToList());
 	}
 
@@ -67,8 +70,10 @@ public class ExamController : Controller
 	//Post
 	[HttpPost]
 	[ValidateAntiForgeryToken]
-	public IActionResult Attempt(List<OptionsVM> ids)
+	public IActionResult Attempt(string idsa)
 	{
+		/*Json ok = new Json();*/
+		List <ExamVM> ids = new List<ExamVM>();
 		if (ids is null)
 		{
 			return NotFound();
@@ -127,12 +132,45 @@ public class ExamController : Controller
 				question = item,
 				OptionsList = unitOfWork.OptionRepo.GetAll().Where(e => e.QuestionId == item.Id).ToList(),
 				result = new(),
-				SubId = id,
 			};
 			exam.Add(questionSet);
 		}
 		/*return RedirectToAction("AttemptWIthApi");*/
-		return Json(new { data = exam });
+		return Json(new { examdata = exam });
+
+	}
+	[HttpPost]
+	public IActionResult AttemptApi(List<ExamVM> ids)
+	{
+		/*Json ok = new Json();*/
+		if (ids is null)
+		{
+			return NotFound();
+		}
+		List<Result> resultList = new List<Result>();
+		foreach (var item in ids)
+		{
+			item.result.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			if (item.result.Answer == item.result.Users_Answer)
+			{
+				item.result.wasCurrect = true;
+			}
+			else
+			{
+				item.result.wasCurrect = false;
+			}
+			resultList.Add(item.result);
+		}
+		int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+		//make that sub count to 1
+		UserSubject UserSub = unitOfWork.UserSub.GetFirstOrDefault(u => u.UserId == userId && u.SubjectId == ids[0].result.SubjectId);
+		UserSub.Counter = 1;
+		unitOfWork.UserSub.Update(UserSub);
+		unitOfWork.ResultRepo.AddRange(resultList);
+		unitOfWork.Save();
+
+		return View();
 
 	}
 	#endregion

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineExam.DataAccess.data;
 using OnlineExam.DataAccess.Repository.IRepository;
 using OnlineExam.Models;
 
-namespace Online_Exam_Web.Controllers
-{
+namespace Online_Exam_Web.Controllers;
     [Authorize(Roles = "1")]
     public class UserController : Controller
     {
@@ -51,5 +51,11 @@ namespace Online_Exam_Web.Controllers
             return View(obj);
         }
 
+        public IActionResult UserExamDetails()
+        {
+			//make subject appear which are attempted or one
+			var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)) && e.Counter != 0);
+			return View(objList.ToList());
+		}
+
     }
-}
