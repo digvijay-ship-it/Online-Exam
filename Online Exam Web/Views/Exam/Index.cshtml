@@ -8,19 +8,6 @@
 		<div class="col-6">
 			<h1>Available Exam Subject Index</h1>
 		</div>
-		<div>
-			<ul>
-				<li>
-					(To do: Make Exam Paper)
-				</li>
-				<li>
-					(To do: Make Exam Paper submitt)
-				</li>
-				<li>
-					(To do: after submission make sure to change value of counter = 1)
-				</li>
-			</ul>
-		</div>
 	</div>
 </div>
 
@@ -41,20 +28,23 @@
 	<tbody>
 		@foreach (var a in Model)
 		{
-			<tr>
-				<td>
-					@a.Subject.Subject_Name
-				</td>
-				<td>
-					@a.Subject.IsActive
-				</td>
-				<td>
-					<a asp-controller="Exam" asp-action="attempt" asp-route-Id="@a.SubjectId" class="btn btn-primary">Attempt</a>
-					<a asp-controller="Exam" asp-action="AttemptWIthApi" asp-route-Id="@a.SubjectId" class="btn btn-primary">AttemptWIthApi</a>
+			if (a.Subject.IsActive)
+			{
+				<tr>
+					<td>
+						@a.Subject.Subject_Name
+					</td>
+					<td>
+						@a.Subject.IsActive
+					</td>
+					<td>
+						<a asp-controller="Exam" asp-action="attempt" asp-route-Id="@a.SubjectId" class="btn btn-primary">Attempt</a>
+						<a asp-controller="Exam" asp-action="AttemptWIthApi" asp-route-Id="@a.SubjectId" class="btn btn-primary">AttemptWIthApi</a>
 
-					<button type="button" @*id="fatchBtn"*@ onclick="buttonClickHandler(@a.SubjectId)" class="btn btn-primary">Fetch Data</button>
-				</td>
-			</tr>
+						<button type="button" @*id="fatchBtn"*@ onclick="buttonClickHandler(@a.SubjectId)" class="btn btn-primary">Fetch Data</button>
+					</td>
+				</tr>
+			}
 		}		
 		
 	</tbody>

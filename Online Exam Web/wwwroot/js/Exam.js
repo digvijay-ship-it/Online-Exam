@@ -1,10 +1,7 @@
-﻿/*let fatchBtn = document.getElementById("fatchBtn");
-
-fatchBtn.addEventListener('click', buttonClickHandler)
-*/
-document.getElementById("prBtn").disabled = true;
+﻿document.getElementById("prBtn").disabled = true;
 
 var counter = 0;
+
 var viewdata;
 
 function userAnswer(c, i) {
@@ -16,9 +13,7 @@ function datafiller(counter) {
     let question = document.getElementById("QueFill")
     let optionTag = document.getElementById("opFill")
     // let op = optionTag.getElementById(1);
-    question.innerHTML = viewdata["examdata"][counter]["question"]["question"]
-    // question.innerHTML = viewdata["examdata"][counter]["optionsList"][3]["question"]
-
+    question.innerHTML = viewdata['examdata'][counter]['question']['question']
     //subid
     viewdata["examdata"][counter]["result"]["subjectId"] = viewdata["examdata"][counter]["question"]["subjectId"]
     //queid
@@ -52,19 +47,20 @@ function nextButtonClicked() {
     if (counter > 0) {
         buttonEnabler("prBtn")
     }
-    if (counter < viewdata["examdata"][counter]["question"].length) {
+    if (counter < viewdata["examdata"].length-1) {
         buttonEnabler("neBtn")
     }
     else {
         buttonDisabler("neBtn")
         document.getElementById("sub").hidden = false;
     }
+    console.log(viewdata)
 }
 function prewButtonClicked() {
     counter--
     document.getElementById("sub").hidden = true;
     datafiller(counter)
-    if (counter < 4) {
+    if (counter < viewdata["examdata"].length) {
         buttonEnabler("neBtn")
     }
     if (counter == 0) {
@@ -73,6 +69,7 @@ function prewButtonClicked() {
     else {
         buttonEnabler("prBtn")
     }
+    console.log(viewdata)
 }
 function buttonDisabler(btnname) {
     //make prew button disabled
@@ -97,20 +94,40 @@ function buttonClickHandler(subId) {
     xhr.onload = function () {
         if (this.status === 200) {
             viewdata = JSON.parse(this.responseText);
-            datafiller(0)
+            datafiller(0) //viewdata[0]['question']['question']
+            console.log(this.responseText)
             console.log(viewdata)
-            console.log(typeof viewdata)
         }
         else {
             console.log("some error acuured")
         }
     }
-    //open the obj
     xhr.open('GET', `https://localhost:44385/Exam/GetAllExam/${subId}`, true);
-    // Send the Request
     xhr.send();
 }
+
+$("#sub").click(function () {
+    let resultArray = []
+    for (let i = 0; i <= viewdata["examdata"].length - 1; i++) {
+        resultArray.push(viewdata["examdata"][i]['result'])
+    }
+    console.log(resultArray)
+    //{ DataInString: DataInStringFormat }
+    let DataInStringFormat = JSON.stringify(viewdata)
+    console.log(DataInStringFormat)
+    let resultInArrayString = JSON.stringify(resultArray)
+    $.post(`https://localhost:44385/Exam/AttemptApi`, { DataInString: resultInArrayString },
+        function (data, status) {
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    //create an empty array for result
+    //then run loop on original jason
+    //and append result one by one in to that array
+    //then send
+
+});
 /*
+
 function SubmitData() {
     console.log("dataposting")
 
@@ -120,11 +137,3 @@ function SubmitData() {
     console.log(JSON.stringify(viewdata));
     pxhr.send(viewdata);
 }*/
-$("#sub").click(function () {
-    let DataInStringFormat = JSON.stringify(viewdata)
-    $.post(`https://localhost:44385/Exam/AttemptApi`, viewdata,
-        function (data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-    let a = 10;
-});

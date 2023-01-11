@@ -8,6 +8,7 @@ using OnlineExam.DataAccess.data;
 using OnlineExam.DataAccess.Repository.IRepository;
 using OnlineExam.Models;
 using OnlineExam.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace Online_Exam_Web.Controllers;
 
@@ -113,7 +114,7 @@ public class ExamController : Controller
 		/*id = 10;*/
 		if (id == 0 || id is null)
 		{
-			return NotFound();
+			return null;
 		}
 
 		var QuestionsList = unitOfWork.QuesRepo.GetAll().Where(e => e.SubjectId == id).ToList();
@@ -123,7 +124,7 @@ public class ExamController : Controller
 			QuestionsList.RemoveAt(random.Next(0, QuestionsList.Count()));
 		}
 
-		IList<ExamVM> exam = new List<ExamVM>();
+		List<ExamVM> exam = new List<ExamVM>();
 
 		foreach (var item in QuestionsList)
 		{
@@ -136,41 +137,40 @@ public class ExamController : Controller
 			exam.Add(questionSet);
 		}
 		/*return RedirectToAction("AttemptWIthApi");*/
+		/*var a = Json(new { examdata = exam });*/
 		return Json(new { examdata = exam });
-
 	}
 	[HttpPost]
-	public IActionResult AttemptApi(List<ExamVM> ids)
+	public IActionResult AttemptApi(string DataInString)
 	{
 		/*Json ok = new Json();*/
-		if (ids is null)
+		List<Result> results = JsonConvert.DeserializeObject<List<Result>>(DataInString);
+		if (results is null|| results.Count==0)
 		{
 			return NotFound();
 		}
-		List<Result> resultList = new List<Result>();
-		foreach (var item in ids)
+		foreach (var item in results)
 		{
-			item.result.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-			if (item.result.Answer == item.result.Users_Answer)
+			item.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			if (item.Answer == item.Users_Answer)
 			{
-				item.result.wasCurrect = true;
+				item.wasCurrect = true;
 			}
 			else
 			{
-				item.result.wasCurrect = false;
+				item.wasCurrect = false;
 			}
-			resultList.Add(item.result);
 		}
 		int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 		//make that sub count to 1
-		UserSubject UserSub = unitOfWork.UserSub.GetFirstOrDefault(u => u.UserId == userId && u.SubjectId == ids[0].result.SubjectId);
+		UserSubject UserSub = unitOfWork.UserSub.GetFirstOrDefault(u => u.UserId == userId && u.SubjectId == results[0].SubjectId);
 		UserSub.Counter = 1;
 		unitOfWork.UserSub.Update(UserSub);
-		unitOfWork.ResultRepo.AddRange(resultList);
+		unitOfWork.ResultRepo.AddRange(results);
 		unitOfWork.Save();
 
-		return View();
+		return RedirectToAction("Index");
 
 	}
 	#endregion
