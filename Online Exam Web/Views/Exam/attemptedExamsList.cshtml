@@ -1,0 +1,43 @@
+﻿@model List<UserSubject>
+
+<div class="container">
+	<div class="row">
+		<div class="col-6">
+			<h1>Available Exam Subject Index</h1>
+		</div>
+	</div>
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th width="20%">
+				Subject Name
+			</th>
+			<th width="20%">
+				Functional
+			</th>
+			<th width="20%">
+
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var a in Model)
+		{
+			<tr>
+				<td>
+					@a.Subject.Subject_Name
+				</td>
+				<td>
+					@a.Subject.IsActive
+				</td>
+				<td>
+					<a asp-controller="Exam" asp-action="AttemptedWIthApi" asp-route-Id="@a.SubjectId" class="btn btn-primary">View Result</a>
+				</td>
+			</tr>
+		}
+		}
+
+	</tbody>
+</table>

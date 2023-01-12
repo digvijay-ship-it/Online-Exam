@@ -39,10 +39,14 @@
 					@a.Subject.IsActive
 				</td>
 				<td>
-					<a asp-controller="Exam" asp-action="attempt" asp-route-Id="@a.SubjectId" class="btn btn-primary">Attempt</a>
-					<a asp-controller="Exam" asp-action="AttemptWIthApi" asp-route-Id="@a.SubjectId" class="btn btn-primary">AttemptWIthApi</a>
-
-					<button type="button" @*id="fatchBtn"*@ onclick="buttonClickHandler(@a.SubjectId)" class="btn btn-primary">Fetch Data</button>
+					@{
+						var param  = new Dictionary<string, string>
+						{
+							{a.User.Name,a.UserId},
+							{@a.Subject.Subject_Name,@a.SubjectId}
+						}
+					};
+					<a asp-controller="Exam" asp-action="AttemptWIthApi" asp-all-route-data="param" class="btn btn-primary">AttemptWIthApi</a>
 				</td>
 			</tr>
 		}

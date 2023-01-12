@@ -124,8 +124,8 @@ namespace OnlineExamWeb.Migrations
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("wasCurrect")
-                        .HasColumnType("bit");
+                    b.Property<int>("wasCurrect")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

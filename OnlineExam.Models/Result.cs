@@ -30,7 +30,7 @@ namespace OnlineExam.Models
         public int? Users_Answer { get; set; }
 
         [Required]
-        public bool wasCurrect { get; set; }
+        public int wasCurrect { get; set; }
 
         public DateTime date { get; set; } = DateTime.Now;
     }

@@ -27,6 +27,13 @@ public class ExamController : Controller
 		var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)) && e.Counter == 0);
 		return View(objList.ToList());
 	}
+	//get
+	public IActionResult attemptedExamsList()
+	{
+		//make subject appear which are unattempted and 0
+		var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)) && e.Counter == 1);
+		return View(objList.ToList());
+	}
 
 	//get
 	public IActionResult Attempt(int? id)
@@ -67,9 +74,18 @@ public class ExamController : Controller
 		var sub = unitOfWork.SubRepo.GetFirstOrDefault(x => x.Id == id);
 		return View(sub);
 	}
+    public IActionResult AttemptedWIthApi(int id)
+    {
+        if (id == 0)
+        {
+            return NotFound();
+        }
+        var sub = unitOfWork.SubRepo.GetFirstOrDefault(x => x.Id == id);
+        return View(sub);
+    }
 
-	//Post
-	[HttpPost]
+    //Post
+    [HttpPost]
 	[ValidateAntiForgeryToken]
 	public IActionResult Attempt(string idsa)
 	{
@@ -85,11 +101,11 @@ public class ExamController : Controller
 			item.result.UserId =Convert.ToInt32( User.FindFirstValue(ClaimTypes.NameIdentifier));
 			if (item.result.Answer == item.result.Users_Answer)
 			{
-				item.result.wasCurrect= true;
+				item.result.wasCurrect= 1;
 			}
 			else
 			{
-				item.result.wasCurrect = false;
+				item.result.wasCurrect = 0;
 			}
 			resultList.Add(item.result);
 		}
@@ -103,7 +119,6 @@ public class ExamController : Controller
 		unitOfWork.Save();
 
 		return View();
-
 	}
 
 
@@ -140,6 +155,47 @@ public class ExamController : Controller
 		/*var a = Json(new { examdata = exam });*/
 		return Json(new { examdata = exam });
 	}
+
+	[HttpGet]
+	public IActionResult GetExamResult(int? id ,int userId = 0)
+	{
+		/*id = 10;*/
+		if (id == 0 || id is null)
+		{
+			return null;
+		}
+		if(userId== 0)
+		{
+			//triggers when user himself loged in
+			userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+		}
+
+
+		List<ExamVM> exam = new List<ExamVM>();
+		var result = unitOfWork.ResultRepo.GetAll().Where(e => e.SubjectId == id && e.UserId == userId);
+		/*so initially my result Model's column with name wasCurrect was a bool type and it stored
+		 * bit type(0,1) of values so when itried to fetch data from data base it throw exception 
+		 * as:--System.InvalidCastException: 'Unable to cast object of type 'System.String' to type 'System.Boolean'.'
+		 * so my question is that previousely i have used few models and in those cases i have a 
+		 * column called IsActive and it is bool type but in those cases i never got this error when
+		 * I was doing crud on them so why did i got this error particularly for result model
+		 */
+		result = result.ToList();
+		foreach (var item in result)
+		{
+			var questionSet = new ExamVM
+			{
+				result = item,
+				OptionsList = unitOfWork.OptionRepo.GetAll("").Where(e => e.QuestionId == item.QuestionId).ToList(),
+				question = unitOfWork.QuesRepo.GetFirstOrDefault(e => e.Id== item.QuestionId),
+			};
+			exam.Add(questionSet);
+		}
+		/*return RedirectToAction("AttemptWIthApi");*/
+		/*var a = Json(new { examdata = exam });*/
+		return Json(new { examdata = exam });
+	}
+
 	[HttpPost]
 	public IActionResult AttemptApi(string DataInString)
 	{
@@ -154,11 +210,11 @@ public class ExamController : Controller
 			item.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 			if (item.Answer == item.Users_Answer)
 			{
-				item.wasCurrect = true;
+				item.wasCurrect = 1;
 			}
 			else
 			{
-				item.wasCurrect = false;
+				item.wasCurrect = 0;
 			}
 		}
 		int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
