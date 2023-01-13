@@ -37,7 +37,7 @@
 				</td>
 				<td>
 					<a asp-controller="User" asp-action="Edit" asp-route-id="@a.Id" class="btn btn-primary">Edit</a>
-					<a asp-controller="User" asp-action="UserExamDetails" class="btn btn-primary">Users Exam details</a>
+					<a asp-controller="User" asp-action="UserExamDetails" asp-route-id="@a.Id" class="btn btn-primary">Users Exam details</a>
 				</td>
 			</tr>
 		}

@@ -6,55 +6,84 @@
 
 <h1>UserExamDetails</h1>
 
-<div class="container">
-	<div class="row">
-		<div class="col-6">
-			<h1>Available Exam results</h1>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-6">
+				<h1>Available Exam results</h1>
+			</div>
 		</div>
 	</div>
-</div>
+	
+	<div id="examInst">
+		<table>
+			<thead>
+				<tr>
+					<th width="20%">
+						Subject Name
+					</th>
+					<th width="20%">
+						Functional
+					</th>
+					<th width="20%">
 
-<table>
-	<thead>
-		<tr>
-			<th width="20%">
-				Subject Name
-			</th>
-			<th width="20%">
-				Functional
-			</th>
-			<th width="20%">
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var a in Model)
+				{
+					<tr>
+						<td>
+							@a.Subject.Subject_Name
+						</td>
+						<td>
+							@a.Subject.IsActive
+						</td>
+						<td>
+							<a onclick="buttonClickHandler(@a.SubjectId,@a.UserId)" class="btn btn-primary">AttemptWIthApi</a>
+						</td>
+					</tr>
+				}
 
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var a in Model)
-		{
-			<tr>
-				<td>
-					@a.Subject.Subject_Name
-				</td>
-				<td>
-					@a.Subject.IsActive
-				</td>
-				<td>
-					@{
-						var param  = new Dictionary<string, string>
-						{
-							{a.User.Name,a.UserId},
-							{@a.Subject.Subject_Name,@a.SubjectId}
-						}
-					};
-					<a asp-controller="Exam" asp-action="AttemptWIthApi" asp-all-route-data="param" class="btn btn-primary">AttemptWIthApi</a>
-				</td>
-			</tr>
-		}
+			</tbody>
+		</table>
 
-	</tbody>
+	</div>
+	@*
+	<form class="form" method="post">*@
+	<!-- action="home" -->
+	@*style="background-color:indianred"*@
+	<div id="fillDiv" style="background-color:palevioletred">
+		<P id="QueFill"></P>
+		<div id="opFill">
+			<div id="0"></div>
+			<div id="1"></div>
+			<div id="2"></div>
+			<div id="3"></div>
+			<div id="4"></div>
+			<div id="5"></div>
+			<div id="6"></div>
+			<div id="7"></div>
+			<div id="8"></div>
+			<div id="9"></div>
+			<div id="10"></div>
+		</div>
 
-	<script src="~/js/Exam.js"></script>
+	</div>
 
-</table>
+	<div id="buton" hidden>
+		<div>
+			<p>User choosed: </p>
+			<p id="UserAction"></p>
+		</div>
+		<button type="button" id="prBtn" onclick="prewButtonClicked()"
+				class="btn btn-secondary">
+			Previous
+		</button>
+		<button type="button" id="neBtn" onclick="nextButtonClicked()" class="btn btn-secondary">Next</button>
+		<a class="btn btn-primary" asp-controller="User" asp-action="Index">Go back To Exam Index</a>
+	</div>
 
-
+	<script src="~/js/attemptedExamAdmin.js"></script>
+</body>
