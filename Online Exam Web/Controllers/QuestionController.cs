@@ -49,10 +49,17 @@ namespace Online_Exam_Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.QuesRepo.Add(obj.question);
-                _unitOfWork.Save();
-                return RedirectToAction("Index");
-            }
+                try
+                {
+                    _unitOfWork.QuesRepo.Add(obj.question);
+                    _unitOfWork.Save();
+                    return RedirectToAction("Index");
+                }
+				catch (Exception SqlException)
+				{
+					ModelState.AddModelError("SubjectId", "Atleast one subject has to be selected");
+				}
+			}
             return View(obj);
         }
 

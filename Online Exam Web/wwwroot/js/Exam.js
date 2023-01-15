@@ -95,8 +95,6 @@ function buttonClickHandler(subId) {
         if (this.status === 200) {
             viewdata = JSON.parse(this.responseText);
             datafiller(0) //viewdata[0]['question']['question']
-            console.log(this.responseText)
-            console.log(viewdata)
         }
         else {
             console.log("some error acuured")
@@ -111,10 +109,7 @@ $("#sub").click(function () {
     for (let i = 0; i <= viewdata["examdata"].length - 1; i++) {
         resultArray.push(viewdata["examdata"][i]['result'])
     }
-    console.log(resultArray)
     //{ DataInString: DataInStringFormat }
-    let DataInStringFormat = JSON.stringify(viewdata)
-    console.log(DataInStringFormat)
     let resultInArrayString = JSON.stringify(resultArray)
     $.post(`https://localhost:44385/Exam/AttemptApi`, { DataInString: resultInArrayString },
         function (data, status) {

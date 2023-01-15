@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using OnlineExam.DataAccess.data;
 using OnlineExam.DataAccess.Repository.IRepository;
@@ -96,7 +97,9 @@ public class UserController : Controller
 		}
 		/*return RedirectToAction("AttemptWIthApi");*/
 		/*var a = Json(new { examdata = exam });*/
+		//return Json(new { examdata = exam });
 		return Json(new { examdata = exam });
+
 	}
 	#endregion
 }

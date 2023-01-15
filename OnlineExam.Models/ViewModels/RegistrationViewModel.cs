@@ -22,7 +22,7 @@ namespace OnlineExam.Models.ViewModels
 		public string Email { get; set; }
         
         [Required]
-		[RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Minimum eight characters, at least one letter and one number")]
+		[RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" , ErrorMessage = "Minimum eight characters long ,including at least one letter and one number And No Speacial character!!!")]
 		public string Password { get; set; }
 
         [Required]

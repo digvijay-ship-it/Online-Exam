@@ -27,6 +27,7 @@ public class ExamController : Controller
 		var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)) && e.Counter == 0);
 		return View(objList.ToList());
 	}
+
 	//get
 	public IActionResult attemptedExamsList()
 	{
@@ -221,12 +222,13 @@ public class ExamController : Controller
 
 		//make that sub count to 1
 		UserSubject UserSub = unitOfWork.UserSub.GetFirstOrDefault(u => u.UserId == userId && u.SubjectId == results[0].SubjectId);
-		UserSub.Counter = 1;
 		unitOfWork.UserSub.Update(UserSub);
 		unitOfWork.ResultRepo.AddRange(results);
-		unitOfWork.Save();
 
 		return RedirectToAction("Index");
+		UserSub.Counter = 1;
+
+		unitOfWork.Save();
 
 	}
 	#endregion

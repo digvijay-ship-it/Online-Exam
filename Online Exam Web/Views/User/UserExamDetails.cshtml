@@ -41,7 +41,8 @@
 							@a.Subject.IsActive
 						</td>
 						<td>
-							<a onclick="buttonClickHandler(@a.SubjectId,@a.UserId)" class="btn btn-primary">AttemptWIthApi</a>
+							<a onclick="buttonClickHandler(@a.SubjectId,@a.UserId)" class="btn btn-primary">ResultWIthApi</a>@*
+							<a asp-controller="User" asp-action="GetExamResultByAdmin" asp-route-id="@a.SubjectId" asp-route-uId="@a.UserId" class="btn btn-primary">AttemptWIthrouste</a>*@
 						</td>
 					</tr>
 				}

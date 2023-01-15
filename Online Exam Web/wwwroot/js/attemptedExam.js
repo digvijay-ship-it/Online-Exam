@@ -109,7 +109,9 @@ function buttonClickHandler(subId) {
     xhr.onload = function () {
         if (this.status === 200) {
             viewdata = JSON.parse(this.responseText);
-            datafiller(0) //viewdata[0]['question']['question']
+            datafiller(0);
+            console.log(this.responseText)
+            console.log(viewdata[0]['question']['question'])
         }
         else {
             console.log("some error acuured")

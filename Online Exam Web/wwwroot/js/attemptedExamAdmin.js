@@ -84,10 +84,12 @@ function buttonEnabler(btnname) {
     document.getElementById(btnname).disabled = false;
 }
 
-function buttonClickHandler(subId,Uid) {
+function buttonClickHandler(subId, Uid) {
+    /*viewdata = await fetch(`https://localhost:44385/User/GetExamResultByAdmin/${subId}/${Uid}`);*/
     const xhr = new XMLHttpRequest();
     document.getElementById("buton").hidden = false;
     document.getElementById("examInst").hidden = true;
+    console.log(`https://localhost:44385/User/GetExamResultByAdmin?id=${subId}&uId=${Uid}`)
     /*    //
       xhr.onprogress = function () {
           console.log('On progress');
@@ -96,12 +98,13 @@ function buttonClickHandler(subId,Uid) {
     xhr.onload = function () {
         if (this.status === 200) {
             viewdata = JSON.parse(this.responseText);
-            datafiller(0) //viewdata[0]['question']['question']
+            datafiller(0)
+            
         }
         else {
             console.log("some error acuured")
         }
     }
-    xhr.open('GET', `https://localhost:44385/User/GetExamResultByAdmin/${subId},${Uid}`, true);
+    xhr.open('GET', `https://localhost:44385/User/GetExamResultByAdmin?id=${subId}&uId=${Uid}`, true);
     xhr.send();
 }
