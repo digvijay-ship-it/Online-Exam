@@ -14,7 +14,7 @@
 	</div>
 	<div>
 		<label asp-for="question.question">Question</label>
-		<input asp-for="question.question" />
+		<textarea asp-for="question.question" rows="4" class="form-control"></textarea>
 		<span asp-validation-for="question.question"></span>
 	</div>
 	<div>
@@ -25,43 +25,37 @@
 	{
 		<div>
 			<label asp-for="@obj.option"></label>
-			<input asp-for="@obj.option" disabled />
-			<a asp-controller="Question" asp-action="Delete_op" asp-route-id=@obj.Id class="btn btn-outline-danger"
-		   onclick="return confirm('Are you sure you want to delete this?')">Delete Option</a>
+			<textarea asp-for="@obj.option" rows="1" class="form-control" disabled></textarea>
+			<a asp-controller="Question" asp-action="Delete_op" asp-route-id=@obj.Id class="btn btn-outline-danger">Delete Option</a>
 		</div>
 	}
-	@*
-	@do
-	{
-	<label asp-for="@Model.opTextList[0].option"></label>
-	<input asp-for="@Model.opTextList[0].option"/>
-	Model.count--;
-	}
-	while(count>0)*@
-	<div>
-		<label asp-for="Option1"></label>
-		<input asp-for="Option1" />
+	
+	<div class="col-12">
+		<a id="add_more_field" onclick="AddButton()" class="btn btn-dark">Add More option</a>
 	</div>
-	<div>
-		<label asp-for="Option2"></label>
-		<input asp-for="Option2" />
+
+	<div >
+		<label asp-for="opTextList[0]">Option</label>
+		<textarea asp-for="opTextList[0]" rows="1"  class="form-control"></textarea>
 	</div>
-	<div>
-		<label asp-for="Option3"></label>
-		<input asp-for="Option3" />
+	<div >
+		<label asp-for="opTextList[1]">Option</label>
+		<textarea asp-for="opTextList[1]" rows="1" class="form-control"></textarea>
 	</div>
-	<div>
-		<label asp-for="Option4"></label>
-		<input asp-for="Option4" />
+	<div >
+		<label asp-for="opTextList[2]">Option</label>
+		<textarea asp-for="opTextList[2]" rows="1" class="form-control"></textarea>
 	</div>
+	<div >
+		<label asp-for="opTextList[3]">Option</label>
+		<textarea asp-for="opTextList[3]" rows="1" class="form-control"></textarea>
+	</div>
+	<div id="add"></div>
+
 	@*<div>
 		<label asp-for="opTextList.Add()"> Added Option</label>
 		<input type="text" asp-for="opTextList.Add()" />
 	</div>*@
-	<div class="col-12">
-		
-		<a href="#" id="add_more_field" class="btn btn-dark">Add More option</a>
-	</div>
 	<button type="submit" class="btn btn-primary">Update Question With options</button>
 	<a asp-controller="Question" asp-action="Index" class="btn btn-outline-dark">Go Back</a>
 

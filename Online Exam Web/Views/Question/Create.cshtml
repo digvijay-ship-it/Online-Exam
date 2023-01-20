@@ -3,7 +3,6 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create Question</h1>
 <div asp-validation-summary="All"></div>
 <form method="post">
     <div class="container">
@@ -15,7 +14,7 @@
     </div>
     <div>
         <label asp-for="question.question">Question</label>
-        <input asp-for="question.question" />
+        <textarea asp-for="question.question" rows="4" class="form-control"></textarea>
         <span asp-validation-for="question.question"></span>
     </div>
     <div>

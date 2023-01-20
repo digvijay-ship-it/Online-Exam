@@ -1,7 +1,8 @@
 ﻿document.getElementById("prBtn").disabled = true;
+document.getElementById("perdetails").hidden = true;
 
 var counter = 0;
-
+var percent = 0;
 var viewdata;
 
 function userAnswer(c, i) {
@@ -43,7 +44,7 @@ function datafiller(counter) {
         let optionId = viewdata["examdata"][counter]["optionsList"][i]["id"]
 
         //cheak if userAns === ans
-        if (userAns !== null) {
+        if (userAns !== null && optionId === userAns) {
             const UserAction = document.getElementById("UserAction").innerHTML = viewdata["examdata"][counter]["optionsList"][i]["option"]
         }
         if (userAns === optionId) {
@@ -110,8 +111,21 @@ function buttonClickHandler(subId) {
         if (this.status === 200) {
             viewdata = JSON.parse(this.responseText);
             datafiller(0);
+
+            //calculate percantage
+            
             console.log(this.responseText)
-            console.log(viewdata[0]['question']['question'])
+            for (let i = 0; i < viewdata["examdata"].length; i++) {
+                if (viewdata["examdata"][i]['result']["wasCurrect"] === 1) {
+                    percent++
+                }
+            }
+            percent = (percent / viewdata["examdata"].length)*100
+            console.log(percent)
+            //inser value of percentage in percentage id
+            document.getElementById("Percentage").innerHTML = percent
+            document.getElementById("perdetails").hidden = false;
+
         }
         else {
             console.log("some error acuured")

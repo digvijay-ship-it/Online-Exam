@@ -11,7 +11,7 @@
     </div>
     <div>
         <label asp-for="question.question">Question</label>
-        <input asp-for="question.question" disabled />
+        <textarea asp-for="question.question" rows="4" class="form-control" disabled ></textarea>
         <span asp-validation-for="question.question"></span>
     </div>
     <div>
@@ -22,7 +22,7 @@
     {
         <div>
             <label asp-for="@obj.option"></label>
-            <input asp-for="@obj.option" disabled/>
+            <input asp-for="@obj.option" class="form-control" disabled />
         </div>
     }
     <div>
@@ -33,7 +33,7 @@
 			<span asp-validation-for="question.Answer" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Add Answer</button>
-    <a asp-controller="Question" asp-action="Index">Go Back</a>
+    <a asp-controller="Question" asp-action="Index" class="btn btn-outline-dark">Go Back</a>
     
 </form>
 

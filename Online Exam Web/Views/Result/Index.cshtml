@@ -1,0 +1,160 @@
+﻿@model List<Result>
+@{
+	ViewData["Title"] = "Index";
+}
+<body>
+	@*    <form >*@
+	<div id="searchBox" class="form-actions no-color">
+		<div class="container">
+			<div class="row">
+				<div class="col-6">
+					<p>from:</p>
+					<p>
+						Find result by date: <input id="date1" type="date" name="SearchString1" value="@ViewData["StartDateFilter"]" />
+						<input type="submit" value="Search" class="btn btn-primary" hidden />
+					</p>
+				</div>
+				<div class="col-6">
+					<p>End:</p>
+					<p>
+						<input id="date2" type="date" name="SearchString2" value="@ViewData["EndDateFilter"]" />
+						<input type="submit" value="Search1" onclick="showData()" class="btn btn-primary" /> |
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-10"></div>
+			<div class="col-2">
+				<a asp-action="Index" class="btn btn-secondary">Back to Full List</a>
+			</div>
+		</div>
+	</div>
+
+	@*</form>*@
+	<div id="NotDataPart">
+		<div id="table">
+			<table>
+				<thead>
+					<tr>
+						<th width="20%">
+							User Email
+						</th>
+						<th width="20%">
+							Subject
+						</th>
+						<th width="20%">
+							Question
+						</th>
+						<th width="20%">
+							was currect
+						</th>
+						<th width="20%">
+							Submition Date
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var a in Model)
+					{
+						<tr>
+							<td>
+								@a.User.Email
+							</td>
+							<td>
+								@a.Subject.Subject_Name
+							</td>
+							<td>
+								@a.Question.question
+							</td>
+							<td>
+								@if (@a.wasCurrect == 1)
+								{
+									<p>Yes</p>
+								}
+								else
+								{
+									<p>No</p>
+								}
+							</td>
+							<td>
+								@*convert date in user readable*@
+								@a.date.ToShortDateString(),@a.date.ToShortTimeString()
+							</td>
+							@*<td>
+						<a class="btn btn-primary" asp-action="Index" asp-route-subid="@a.SubjectId" asp-route-Userid="@a.UserId">test</a>
+						</td>*@
+							@*<td>
+						<a asp-controller="Subject" asp-action="Edit" asp-route-id="@a.Id" class="btn btn-outline-dark">Edit</a>
+						<a asp-controller="Subject" asp-action="Delete" asp-route-id="@a.Id" class="btn btn-outline-danger">Delete</a>
+						</td>*@
+						</tr>
+					}
+				</tbody>
+
+			</table>
+		</div>
+		<div id="GroupDataShow">
+			<table>
+				<thead>
+					<tr>
+						<th width="20%">
+							User Email
+						</th>
+						<th width="20%">
+							Subject
+						</th>
+						<th width="20%">
+							Percentage
+						</th>
+						<th width="20%">
+							View Result In Details
+						</th>
+
+					</tr>
+				</thead>
+				<tbody id="tbodyOfGroupData">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div>
+		<div id="fillDiv" style="background-color:palevioletred">
+
+			<P id="QueFill"></P>
+			<div id="opFill">
+				<div id="0"></div>
+				<div id="1"></div>
+				<div id="2"></div>
+				<div id="3"></div>
+				<div id="4"></div>
+				<div id="5"></div>
+				<div id="6"></div>
+				<div id="7"></div>
+				<div id="8"></div>
+				<div id="9"></div>
+				<div id="10"></div>
+			</div>
+
+		</div>
+
+		<div id="buton" hidden>
+			<div>
+				<p>User choosed: </p>
+				<p id="UserAction"></p>
+			</div>
+			<button type="button" id="prBtn" onclick="prewButtonClicked()"
+					class="btn btn-secondary">
+				Previous
+			</button>
+			<button type="button" id="neBtn" onclick="nextButtonClicked()" class="btn btn-secondary">Next</button>
+			@*<a class="btn btn-primary" asp-controller="User" asp-action="Index">Go back To Exam Index</a>*@
+		</div>
+	</div>
+
+	<script src="~/js/ShowResults.js"></script>
+	<script src="~/js/ResInGroupData.js"></script>
+</body>
+

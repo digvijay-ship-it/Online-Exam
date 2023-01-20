@@ -11,7 +11,7 @@ namespace OnlineExam.Models.ViewModels
         public Question question { get; set; }
 
         [ValidateNever]
-        public IList<Option> OptionsList { get; set; }
+        public List<Option> OptionsList { get; set; }
 
 		[ValidateNever]
 		public List<string> opTextList { get; set; }

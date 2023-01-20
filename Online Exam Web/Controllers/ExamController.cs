@@ -9,6 +9,7 @@ using OnlineExam.DataAccess.Repository.IRepository;
 using OnlineExam.Models;
 using OnlineExam.Models.ViewModels;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Online_Exam_Web.Controllers;
 
@@ -135,7 +136,7 @@ public class ExamController : Controller
 
 		var QuestionsList = unitOfWork.QuesRepo.GetAll().Where(e => e.SubjectId == id).ToList();
 		var random = new Random();
-		while (QuestionsList.Count() > 2)
+		while (QuestionsList.Count() > 10)
 		{
 			QuestionsList.RemoveAt(random.Next(0, QuestionsList.Count()));
 		}
@@ -201,6 +202,7 @@ public class ExamController : Controller
 	public IActionResult AttemptApi(string DataInString)
 	{
 		/*Json ok = new Json();*/
+		float percent=0;
 		List<Result> results = JsonConvert.DeserializeObject<List<Result>>(DataInString);
 		if (results is null|| results.Count==0)
 		{
@@ -212,25 +214,27 @@ public class ExamController : Controller
 			if (item.Answer == item.Users_Answer)
 			{
 				item.wasCurrect = 1;
+				percent+=1;
 			}
 			else
 			{
 				item.wasCurrect = 0;
 			}
 		}
+
 		int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 		//make that sub count to 1
 		UserSubject UserSub = unitOfWork.UserSub.GetFirstOrDefault(u => u.UserId == userId && u.SubjectId == results[0].SubjectId);
+		UserSub.Counter = 1;
+		UserSub.percentage = ((float)percent/results.Count)*100;
 		unitOfWork.UserSub.Update(UserSub);
 		unitOfWork.ResultRepo.AddRange(results);
-
-		return RedirectToAction("Index");
-		UserSub.Counter = 1;
-
 		unitOfWork.Save();
 
-	}
-	#endregion
+		return Ok();
+
+    }
+    #endregion
 
 }

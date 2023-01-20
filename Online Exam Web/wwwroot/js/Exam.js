@@ -1,5 +1,4 @@
 ﻿document.getElementById("prBtn").disabled = true;
-
 var counter = 0;
 
 var viewdata;
@@ -47,7 +46,7 @@ function nextButtonClicked() {
     if (counter > 0) {
         buttonEnabler("prBtn")
     }
-    if (counter < viewdata["examdata"].length-1) {
+    if (counter < viewdata["examdata"].length - 1) {
         buttonEnabler("neBtn")
     }
     else {
@@ -86,6 +85,8 @@ function buttonClickHandler(subId) {
     document.getElementById("buton").hidden = false
     document.getElementById("sub").hidden = true;
     document.getElementById("examInst").hidden = true;
+
+    
     /*    //
       xhr.onprogress = function () {
           console.log('On progress');
@@ -112,15 +113,15 @@ $("#sub").click(function () {
     //{ DataInString: DataInStringFormat }
     let resultInArrayString = JSON.stringify(resultArray)
     $.post(`https://localhost:44385/Exam/AttemptApi`, { DataInString: resultInArrayString },
-        function (data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
-        });
+        function () {
+            location.href = `https://localhost:44385/Exam/AttemptedWIthApi/${viewdata["examdata"][0]["result"]["subjectId"]}`;
+        })
+})
     //create an empty array for result
     //then run loop on original jason
     //and append result one by one in to that array
     //then send
 
-});
 /*
 
 function SubmitData() {

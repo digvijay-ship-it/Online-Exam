@@ -1,8 +1,6 @@
 ﻿document.getElementById("prBtn").disabled = true;
-document.getElementById("perdetails").hidden = true;
 
 
-var percent = 0;
 var counter = 0;
 var viewdata;
 
@@ -12,17 +10,17 @@ function datafiller(counter) {
     let optionTag = document.getElementById("opFill")
     // let op = optionTag.getElementById(1);
     question.innerHTML = viewdata['examdata'][counter]['question']['question']
-    
+
     let userAns = viewdata["examdata"][counter]["result"]["users_Answer"]
     let Ans = viewdata["examdata"][counter]["result"]["answer"]
 
     if (userAns === null || userAns !== Ans) {
         const a = document.getElementById("fillDiv")
         a.attributes[1].value = "background-color: palevioletred"
-        const UserAction = document.getElementById("UserAction").innerHTML ="you selected no Option" 
+        const UserAction = document.getElementById("UserAction").innerHTML = "you selected no Option"
     }
 
-    else {//when (userAns === Ans) 
+    else {//when (userAns === Ans)
         //apply green colour in background
         const a = document.getElementById("fillDiv")
         a.attributes[1].value = "background-color:#99ffbb"
@@ -30,7 +28,7 @@ function datafiller(counter) {
 
     for (let i = 0; i < viewdata["examdata"][counter]["optionsList"].length; i++) {
         let option = viewdata["examdata"][counter]["optionsList"][i]["option"]
-        
+
         let questionId = viewdata["examdata"][counter]["question"]["id"]
         let optionId = viewdata["examdata"][counter]["optionsList"][i]["id"]
 
@@ -39,15 +37,15 @@ function datafiller(counter) {
         }
         if (userAns === optionId) {
             document.getElementById(i.toString()).innerHTML = `
-    <input type="radio" checked="checked" id="${userAns}" name="${questionId}" value="${optionId}" disabled >
-    <label for="${userAns}">${option}</label>   
-      `
+            <input type="radio" checked="checked" id="${userAns}" name="${questionId}" value="${optionId}" disabled >
+            <label for="${userAns}">${option}</label>
+              `
         }
         else {
             document.getElementById(i.toString()).innerHTML = `
-      <input type="radio" id="${userAns}" name="${questionId}" value="${optionId}" disabled>
-      <label for="${userAns}">${option}</label>
-        `
+              <input type="radio" id="${userAns}" name="${questionId}" value="${optionId}" disabled>
+              <label for="${userAns}">${option}</label>
+                `
         }
     }
 }
@@ -91,7 +89,7 @@ function buttonClickHandler(subId, Uid) {
     /*viewdata = await fetch(`https://localhost:44385/User/GetExamResultByAdmin/${subId}/${Uid}`);*/
     const xhr = new XMLHttpRequest();
     document.getElementById("buton").hidden = false;
-    document.getElementById("examInst").hidden = true;
+
     console.log(`https://localhost:44385/User/GetExamResultByAdmin?id=${subId}&uId=${Uid}`)
     /*    //
       xhr.onprogress = function () {
@@ -102,12 +100,7 @@ function buttonClickHandler(subId, Uid) {
         if (this.status === 200) {
             viewdata = JSON.parse(this.responseText);
             datafiller(0)
-            for (let i = 0; i < viewdata["examdata"].length; i++) {
-                if (viewdata["examdata"][i]['result']["wasCurrect"] === 1) {
-                    percent++
-                }
-            }
-            percent = (percent / viewdata["examdata"].length) * 100;
+
             document.getElementById("Percentage").innerHTML = percent;
             document.getElementById("perdetails").hidden = false;
         }

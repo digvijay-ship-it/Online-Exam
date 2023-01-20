@@ -9,6 +9,7 @@ using OnlineExam.DataAccess.Repository;
 using OnlineExam.DataAccess.Repository.IRepository;
 using OnlineExam.Models;
 using OnlineExam.Models.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Online_Exam_Web.Controllers
 {
@@ -85,51 +86,42 @@ namespace Online_Exam_Web.Controllers
         [HttpPost]
         public IActionResult Edit(OptionsVM obj)
         {
-            List<Option> optionListFormView = new List<Option>();
             if (ModelState.IsValid)
             {
+				List<Option> optionListFormView = new List<Option>();
+				//
+				foreach (var option in obj.opTextList)
+				{
+					if (option is not null)
+					{
+						var opObj = new Option();
+						opObj.option = option;
+						opObj.QuestionId = obj.question.Id;
+						optionListFormView.Add(opObj);
+					}
+				}
+                _unitOfWork.OptionRepo.AddRange(optionListFormView);
 
-                if (!(obj.Option1 is null))
-                {
-                    var op1 = new Option();
-                    op1.QuestionId = obj.question.Id;
-                    op1.option = obj.Option1;
-                    _unitOfWork.OptionRepo.Add(op1);
-                    optionListFormView.Append(op1);
-                }
-                if (!(obj.Option2 is null))
-                {
-                    var op2 = new Option();
-                    op2.QuestionId = obj.question.Id;
-                    op2.option = obj.Option2;
-                    _unitOfWork.OptionRepo.Add(op2);
-                    optionListFormView.Append(op2);
-                }
-                if (!(obj.Option3 is null))
-                {
-                    var op3 = new Option();
-                    op3.QuestionId = obj.question.Id;
-                    op3.option = obj.Option3;
-                    _unitOfWork.OptionRepo.Add(op3);
-                    optionListFormView.Append(op3);
-                }
-                if (!(obj.Option4 is null))
-                {
-                    var op4 = new Option();
-                    op4.QuestionId = obj.question.Id;
-                    op4.option = obj.Option4;
-                    _unitOfWork.OptionRepo.Add(op4);
-                    optionListFormView.Append(op4);
-                }
-                _unitOfWork.QuesRepo.Update(obj.question);
-                _unitOfWork.Save();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
+				_unitOfWork.QuesRepo.Update(obj.question);
+				_unitOfWork.Save();
+				return RedirectToAction("Index");
+				/*for (var i = 0; i < obj.opTextList.Count; i++)
+				{
+					if (obj.opTextList[i] is not null)
+					{
+						var opObj = new Option();
+						opObj.option = obj.opTextList[i];
+						opObj.QuestionId = obj.question.Id;
+						optionListFormView.Add(opObj);
+					}
+				}*/
+			}
 
-        //Get
-        public IActionResult Delete(int? id)
+			return View(obj);
+		}
+
+		//Get
+		public IActionResult Delete(int? id)
         {
             if (id == null && id == 0)
             {
@@ -165,11 +157,11 @@ namespace Online_Exam_Web.Controllers
             {
                 question = new Question(),
                 OptionsList = _unitOfWork.OptionRepo.GetAll().Where(u => u.QuestionId == id).ToList(),
-                /*OptionsListSList = _unitOfWork.OptionRepo.GetAll().Where(i => i.QuestionId == id).Select(i => new SelectListItem
+                OptionsListSList = _unitOfWork.OptionRepo.GetAll().Where(i => i.QuestionId == id).Select(i => new SelectListItem
                 {
                     Text = i.option,
                     Value = i.Id.ToString()
-                })*/
+                })
             };
             var questionToEdit = _unitOfWork.QuesRepo.GetFirstOrDefault(u => u.Id == id);
             qAndOpBag.question = questionToEdit;

@@ -39,8 +39,8 @@
                     @a.IsActive
                 </td>
                 <td>
-                    <a asp-controller="Subject" asp-action="Edit" asp-route-id="@a.Id">Edit</a>
-                    <a asp-controller="Subject" asp-action="Delete" asp-route-id="@a.Id">Delete</a>
+                    <a asp-controller="Subject" asp-action="Edit" asp-route-id="@a.Id" class="btn btn-outline-dark" >Edit</a>
+                    <a asp-controller="Subject" asp-action="Delete" asp-route-id="@a.Id" class="btn btn-outline-danger">Delete</a>
                 </td>
             </tr>
         }

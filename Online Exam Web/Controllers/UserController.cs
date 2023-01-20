@@ -18,11 +18,15 @@ public class UserController : Controller
 		unitOfWork = nitOfWork;
 	}
 
-	public IActionResult Index()
-	{
-		var objList = unitOfWork.UserRepo.GetAll();
-
-		return View(objList);
+	public IActionResult Index(string? searchString)
+    {
+        ViewData["CurrentFilter"] = searchString;
+        var objList = unitOfWork.UserRepo.GetAll();
+		if (!String.IsNullOrEmpty(searchString))
+		{
+			objList = unitOfWork.UserRepo.GetAll().Where(u => u.Email.Contains(searchString)||u.Name.Contains(searchString)).ToList();
+		}
+            return View(objList);
 	}
 
 	//get
@@ -59,6 +63,7 @@ public class UserController : Controller
 		var objList = unitOfWork.UserSub.GetAll("Subject").Where(e => e.UserId == id && e.Counter != 0);
 		return View(objList.ToList());
 	}
+
 	#region Api calls
 	[HttpGet]
 	public IActionResult GetExamResultByAdmin(int? id, int uId = 0)

@@ -15,5 +15,7 @@ namespace OnlineExam.Models
         public Subject Subject { get; set; }
 
         public int Counter { get; set; } = 0;
+
+        public float percentage { get; set; }
     }
 }
