@@ -17,7 +17,7 @@
         <input asp-for="IsActive" type="checkbox" disabled />
     </div>
     <div>
-        <button type="submit" class="btn btn-danger">Delete subject</button>
+        <button type="submit" class="btn btn-danger" onclick = "return confirm('Are sure wants to delete?');">Delete subject</button>
         <a asp-action="Index" asp-controller="Subject">Back to list</a>
     </div>
 </form>

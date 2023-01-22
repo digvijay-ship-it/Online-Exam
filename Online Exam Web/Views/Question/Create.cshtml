@@ -14,8 +14,8 @@
     </div>
     <div>
         <label asp-for="question.question">Question</label>
-        <textarea asp-for="question.question" rows="4" class="form-control"></textarea>
-        <span asp-validation-for="question.question"></span>
+        <textarea asp-for="question.question" rows="4" class="form-control" ></textarea>
+        <span asp-validation-for="question.question" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="question.IsActive"></label>
@@ -26,9 +26,15 @@
         <select asp-for="question.SubjectId" asp-items="@Model.subjectList" class="form-select">
             <option disabled selected>--Select Subject</option>
         </select>
-        <span asp-validation-for="question.SubjectId"></span>
+        <span asp-validation-for="question.SubjectId" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-controller="Question" asp-action="Index">Go Back</a>
+    <a asp-controller="Question" asp-action="Index" class="btn btn-secondary">Go Back</a>
 </form>
 
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial"/>
+    }
+}

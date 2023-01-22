@@ -15,9 +15,9 @@
         <span asp-validation-for="Subject_Name"></span>
     </div>
     <div>
-        <label asp-for="IsActive">Cheak For subject to be activate</label>
+        <label asp-for="IsActive">Cheak For activation</label>
         <input type="checkbox" asp-for="IsActive" />
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-controller="Subject" asp-action="Index">Go Back</a>
+    <a asp-controller="Subject" asp-action="Index" class="btn btn-secondary">Go Back</a>
 </form>

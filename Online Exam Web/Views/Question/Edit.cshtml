@@ -1,10 +1,7 @@
 ﻿@model OnlineExam.Models.ViewModels.OptionsVM
-@{
-	ViewData["Title"] = "Edit";
-}
 
 <h1>Question Edit</h1>
-<form method="post">
+<form action="Edit" method="post">
 	<input asp-for="question.Id" hidden />
 	<input asp-for="question.SubjectId" hidden />
 	<div class="container">
@@ -21,14 +18,30 @@
 		<label asp-for="question.IsActive"></label>
 		<input asp-for="question.IsActive" type="checkbox" />
 	</div>
-	@foreach (var obj in Model.OptionsList)
+	
+	@for (var i = 0; i < Model.OptionsList.Count;i++)
+	{
+		<div>
+			<input asp-for="@Model.OptionsList[i].Id" hidden />
+			<input asp-for="@Model.OptionsList[i].QuestionId" hidden />
+
+			<label asp-for="@Model.OptionsList[i].option"></label>
+			<input asp-for="@Model.OptionsList[i].option" rows="1" class="form-control" />
+			<span asp-validation-for="@Model.OptionsList[i].option"></span>
+			<a asp-controller="Question" asp-action="Delete_op" asp-route-id=@Model.OptionsList[i].Id class="btn btn-outline-danger" onclick="return confirm('Are sure wants to delete?');">Delete Option</a>
+		</div>
+	}
+@*
+		@foreach (var obj in Model.OptionsList)
 	{
 		<div>
 			<label asp-for="@obj.option"></label>
-			<textarea asp-for="@obj.option" rows="1" class="form-control" disabled></textarea>
-			<a asp-controller="Question" asp-action="Delete_op" asp-route-id=@obj.Id class="btn btn-outline-danger">Delete Option</a>
+			<input asp-for="@obj.option" rows="1" class="form-control"/>
+			<a asp-controller="Question" asp-action="Delete_op" asp-route-id=@obj.Id class="btn btn-outline-danger" onclick="return confirm('Are sure wants to delete?');">Delete Option</a>
 		</div>
-	}
+	}	*@
+	
+	
 	
 	<div class="col-12">
 		<a id="add_more_field" onclick="AddButton()" class="btn btn-dark">Add More option</a>

@@ -57,7 +57,7 @@ function FillData(vd) {
 function showData() {
 
     const xhr = new XMLHttpRequest()
-
+    
     var date1 = $("#date1").val()
     var date2 = $("#date2").val()
     /*console.log(typeof date1)
@@ -76,9 +76,13 @@ function showData() {
         }
         if (this.status === 200) {
             //hide table 
-            document.getElementById("searchBox").hidden = true;
+            document.getElementById("searchBox").hidden = false;
+            //reset dates input fields
+            document.getElementById("tbodyOfGroupData").innerHTML=''
+
             document.getElementById("table").hidden = true;
             document.getElementById("GroupDataShow").hidden = false;
+            
             viewdata = JSON.parse(this.response)
 
             FillData(viewdata)

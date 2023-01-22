@@ -28,20 +28,23 @@
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Index">Subject</a>
 							</li>
+                            <br >
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Index">Question</a>
 							</li>
+                            <br />
 							@*<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registeration">signup</a>
 							</li>*@
+                            <br />
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">User and exam Details</a>
                             </li>
+                            <br />
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Result" asp-action="Index">Results</a>
                             </li>
                         }
-                        
                         @if(User.IsInRole("2"))
                         {
                             <h6>Student panal</h6>

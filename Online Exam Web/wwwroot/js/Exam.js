@@ -19,6 +19,8 @@ function datafiller(counter) {
     viewdata["examdata"][counter]["result"]["questionId"] = viewdata["examdata"][counter]["question"]["id"]
     //answer
     viewdata["examdata"][counter]["result"]["answer"] = viewdata["examdata"][counter]["question"]["answer"]
+    //sending qnumber
+    document.getElementById("qNumber").innerHTML = `Q${counter + 1}`
 
     for (let i = 0; i < viewdata["examdata"][counter]["optionsList"].length; i++) {
         let option = viewdata["examdata"][counter]["optionsList"][i]["option"]

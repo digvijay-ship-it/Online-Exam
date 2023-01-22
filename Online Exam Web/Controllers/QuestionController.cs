@@ -10,6 +10,7 @@ using OnlineExam.DataAccess.Repository.IRepository;
 using OnlineExam.Models;
 using OnlineExam.Models.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Data.SqlClient;
 
 namespace Online_Exam_Web.Controllers
 {
@@ -22,10 +23,20 @@ namespace Online_Exam_Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
-            IEnumerable<Question> questions = _unitOfWork.QuesRepo.GetAll("Subject");
-            return View(questions);
+			ViewData["Subject"] = string.IsNullOrEmpty(sortOrder) ? "SubDesc" : "";
+            List<Question> questions;
+            switch (sortOrder)
+            {
+                case "SubDesc":
+                    questions = _unitOfWork.QuesRepo.GetAll("Subject").OrderByDescending(e => e.SubjectId).ToList();
+					break;
+                default:
+					questions = _unitOfWork.QuesRepo.GetAll("Subject").OrderBy(e => e.SubjectId).ToList();
+					break;
+			}
+			return View(questions);
         }
 
         //get
@@ -89,6 +100,14 @@ namespace Online_Exam_Web.Controllers
             if (ModelState.IsValid)
             {
 				List<Option> optionListFormView = new List<Option>();
+                if(obj.OptionsList is not null)
+                {
+					foreach (var a in obj.OptionsList)
+					{
+						_unitOfWork.OptionRepo.update(a);
+					}
+				}
+                
 				//
 				foreach (var option in obj.opTextList)
 				{

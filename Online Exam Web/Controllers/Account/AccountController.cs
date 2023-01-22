@@ -9,6 +9,8 @@ using OnlineExam.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Online_Exam_Web.Controllers.Account
 {
@@ -94,8 +96,17 @@ namespace Online_Exam_Web.Controllers.Account
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
+            if(model.Email is null||model.Password is null)
+            {
+                ModelState.AddModelError("Email", "Email Is requried");
+            }
+            else if (model.Password is null)
+            {
+                ModelState.AddModelError("Password", "Please enter Password");
+            }
             if (ModelState.IsValid)
             {
+                model.Email = model.Email.Trim();
                 //Employee or Admin Login
                 var Userdata = _unitOfWork.UserRepo.GetFirstOrDefault(e => e.Email == model.Email);
                 var AdminData = _unitOfWork.AdminRepo.GetFirstOrDefault(e => e.Email == model.Email);

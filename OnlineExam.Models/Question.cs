@@ -8,6 +8,7 @@ namespace OnlineExam.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string question { get; set; }
 
